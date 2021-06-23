@@ -1,10 +1,9 @@
 package nl.iobyte.commandapi.arguments.number;
 
-import javafx.util.Pair;
 import nl.iobyte.commandapi.interfaces.ICommandArgument;
+import nl.iobyte.commandapi.objects.ArgumentCheck;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-
 import java.util.List;
 
 public class DoubleArgument implements ICommandArgument<Double> {
@@ -24,12 +23,12 @@ public class DoubleArgument implements ICommandArgument<Double> {
      * @param previousArguments Previous arguments
      * @return Boolean
      */
-    public Pair<Boolean, Integer> checkArgument(CommandSender sender, String[] args, List<Object> previousArguments) {
+    public ArgumentCheck checkArgument(CommandSender sender, String[] args, List<Object> previousArguments) {
         try {
             Double.parseDouble(args[0]);
-            return new Pair<>(true, 1);
+            return new ArgumentCheck(true, 1);
         } catch (Exception e) {
-            return new Pair<>(false, 0);
+            return new ArgumentCheck(false, 0);
         }
     }
 

@@ -2,16 +2,16 @@ package nl.iobyte.commandapi.arguments;
 
 import nl.iobyte.commandapi.interfaces.ICommandArgument;
 import nl.iobyte.commandapi.objects.ArgumentCheck;
-import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import java.util.Arrays;
 import java.util.List;
 
-public class EnumArgument implements ICommandArgument<Enum<?>> {
+public class MaterialArgument implements ICommandArgument<Enum<?>> {
 
-    private final Enum<?>[] validArgumentHolders;
+    private final Material[] validArgumentHolders;
 
-    public EnumArgument(Enum<?>... validArgumentHolders) {
+    public MaterialArgument(Material... validArgumentHolders) {
         this.validArgumentHolders = validArgumentHolders;
     }
 
@@ -20,29 +20,36 @@ public class EnumArgument implements ICommandArgument<Enum<?>> {
      * @return String
      */
     public String getMessage(String[] args) {
-        return "Invalid value "+ChatColor.WHITE+args[0]+ChatColor.RED+" for "+validArgumentHolders[0].name();
+        return "No material with name: "+args[0];
     }
 
     /**
-     * Check if argument is valid Enum
+     * Check if argument is valid Material
      * @param sender CommandSender
      * @param args Arguments passed by Command
      * @param previousArguments Previous arguments
      * @return Boolean
      */
     public ArgumentCheck checkArgument(CommandSender sender, String[] args, List<Object> previousArguments) {
-        return new ArgumentCheck(Arrays.stream(validArgumentHolders).map(Enum::toString).anyMatch(args[0]::equalsIgnoreCase), 1);
+        Material material = Material.getMaterial(args[0]);
+        if(material == null)
+            return new ArgumentCheck(false, 0);
+
+        if(validArgumentHolders == null || validArgumentHolders.length == 0)
+            return new ArgumentCheck(true, 1);
+
+        return new ArgumentCheck(Arrays.stream(validArgumentHolders).anyMatch(m -> m == material), 1);
     }
 
     /**
-     * Get Enum passed by command
+     * Get Material passed by command
      * @param sender CommandSender
      * @param args Arguments passed by Command
      * @param previousArguments Previous arguments
-     * @return Enum
+     * @return Material
      */
-    public Enum<?> getArgument(CommandSender sender, String[] args, List<Object> previousArguments) {
-        return Arrays.stream(validArgumentHolders).filter(enumVariable -> enumVariable.toString().equalsIgnoreCase(args[0])).findFirst().orElse(null);
+    public Material getArgument(CommandSender sender, String[] args, List<Object> previousArguments) {
+        return Material.getMaterial(args[0]);
     }
 
 }

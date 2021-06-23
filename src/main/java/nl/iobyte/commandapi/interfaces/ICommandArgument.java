@@ -1,6 +1,6 @@
 package nl.iobyte.commandapi.interfaces;
 
-import javafx.util.Pair;
+import nl.iobyte.commandapi.objects.ArgumentCheck;
 import org.bukkit.command.CommandSender;
 import java.util.List;
 
@@ -17,9 +17,9 @@ public interface ICommandArgument<T> {
      * @param sender CommandSender
      * @param args Arguments passed by Command
      * @param previousArguments Previous arguments
-     * @return Pair<Boolean, Integer>
+     * @return ArgumentCheck
      */
-    Pair<Boolean, Integer> checkArgument(CommandSender sender, String[] args, List<Object> previousArguments);
+    ArgumentCheck checkArgument(CommandSender sender, String[] args, List<Object> previousArguments);
 
     /**
      * Get object of argument

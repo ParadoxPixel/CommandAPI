@@ -1,7 +1,7 @@
 package nl.iobyte.commandapi.arguments;
 
-import javafx.util.Pair;
 import nl.iobyte.commandapi.interfaces.ICommandArgument;
+import nl.iobyte.commandapi.objects.ArgumentCheck;
 import nl.iobyte.commandapi.objects.SpigotPlayerSelector;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -25,9 +25,9 @@ public class PlayersArgument implements ICommandArgument<List<Player>> {
      * @param previousArguments Previous arguments
      * @return Boolean
      */
-    public Pair<Boolean, Integer> checkArgument(CommandSender sender, String[] args, List<Object> previousArguments) {
+    public ArgumentCheck checkArgument(CommandSender sender, String[] args, List<Object> previousArguments) {
         List<Player> players = new SpigotPlayerSelector(args[0]).getPlayers(sender);
-        return new Pair<>(players != null && !players.isEmpty(), 1);
+        return new ArgumentCheck(players != null && !players.isEmpty(), 1);
     }
 
     /**

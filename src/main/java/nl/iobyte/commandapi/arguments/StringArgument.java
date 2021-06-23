@@ -1,7 +1,7 @@
 package nl.iobyte.commandapi.arguments;
 
-import javafx.util.Pair;
 import nl.iobyte.commandapi.interfaces.ICommandArgument;
+import nl.iobyte.commandapi.objects.ArgumentCheck;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import java.util.Arrays;
@@ -30,11 +30,11 @@ public class StringArgument implements ICommandArgument<String> {
      * @param previousArguments Previous arguments
      * @return Boolean
      */
-    public Pair<Boolean, Integer> checkArgument(CommandSender sender, String[] args, List<Object> previousArguments) {
+    public ArgumentCheck checkArgument(CommandSender sender, String[] args, List<Object> previousArguments) {
         if(validArguments == null || validArguments.length == 0)
-            return new Pair<>(true, 1);
+            return new ArgumentCheck(true, 1);
 
-        return new Pair<>(Arrays.stream(validArguments).anyMatch(args[0]::equalsIgnoreCase), 1);
+        return new ArgumentCheck(Arrays.stream(validArguments).anyMatch(args[0]::equalsIgnoreCase), 1);
     }
 
     /**

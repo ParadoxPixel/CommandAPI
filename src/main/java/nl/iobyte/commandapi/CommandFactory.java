@@ -3,6 +3,7 @@ package nl.iobyte.commandapi;
 import javafx.util.Pair;
 import nl.iobyte.commandapi.interfaces.ICommandArgument;
 import nl.iobyte.commandapi.interfaces.ICommandMiddleware;
+import nl.iobyte.commandapi.objects.ArgumentCheck;
 import nl.iobyte.commandapi.objects.CommandMap;
 import nl.iobyte.commandapi.objects.CommandSyntax;
 import nl.iobyte.commandapi.interfaces.SubCommand;
@@ -111,7 +112,7 @@ public class CommandFactory implements CommandExecutor {
         //Pre assign variables
         boolean b;
         String str = null;
-        Pair<Boolean, Integer> pair;
+        ArgumentCheck pair;
         List<ICommandArgument<?>> arguments;
         List<Object> parsedArguments;
         List<CommandSyntax> syntaxList = subCommand.getApplicableSyntaxList(sender);

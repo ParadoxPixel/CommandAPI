@@ -1,7 +1,7 @@
 package nl.iobyte.commandapi.arguments.array;
 
-import javafx.util.Pair;
 import nl.iobyte.commandapi.interfaces.ICommandArgument;
+import nl.iobyte.commandapi.objects.ArgumentCheck;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import java.util.List;
@@ -17,15 +17,15 @@ public class IntegerArrayArgument implements ICommandArgument<Integer[]> {
     }
 
     @Override
-    public Pair<Boolean, Integer> checkArgument(CommandSender sender, String[] args, List<Object> previousArguments) {
+    public ArgumentCheck checkArgument(CommandSender sender, String[] args, List<Object> previousArguments) {
         String[] items = args[0].replace("[", "").replace("]", "").split(",");
         try {
             for(String item : items)
                 Integer.parseInt(item);
 
-            return new Pair<>(true, 1);
+            return new ArgumentCheck(true, 1);
         } catch (Exception e) {
-            return new Pair<>(false, 0);
+            return new ArgumentCheck(false, 0);
         }
     }
 
