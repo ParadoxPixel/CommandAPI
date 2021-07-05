@@ -2,7 +2,7 @@ package nl.iobyte.commandapi.arguments;
 
 import nl.iobyte.commandapi.interfaces.ICommandArgument;
 import nl.iobyte.commandapi.objects.ArgumentCheck;
-import org.bukkit.command.CommandSender;
+import nl.iobyte.commandapi.interfaces.ICommandExecutor;
 import java.util.List;
 
 public class MessageArgument implements ICommandArgument<String> {
@@ -17,12 +17,12 @@ public class MessageArgument implements ICommandArgument<String> {
 
     /**
      * Check if argument is valid String
-     * @param sender CommandSender
+     * @param sender ICommandExecutor
      * @param args Arguments passed by Command
      * @param previousArguments Previous arguments
      * @return Boolean
      */
-    public ArgumentCheck checkArgument(CommandSender sender, String[] args, List<Object> previousArguments) {
+    public ArgumentCheck checkArgument(ICommandExecutor sender, String[] args, List<Object> previousArguments) {
         if(!args[0].startsWith("\""))
             return new ArgumentCheck(true, 1);
 
@@ -35,12 +35,12 @@ public class MessageArgument implements ICommandArgument<String> {
 
     /**
      * Get String passed by command
-     * @param sender CommandSender
+     * @param sender ICommandExecutor
      * @param args Arguments passed by Command
      * @param previousArguments Previous arguments
      * @return String
      */
-    public String getArgument(CommandSender sender, String[] args, List<Object> previousArguments) {
+    public String getArgument(ICommandExecutor sender, String[] args, List<Object> previousArguments) {
         return String.join(" ", args).replace("\"", "");
     }
 

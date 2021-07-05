@@ -1,8 +1,6 @@
-package nl.iobyte.commandapi.interfaces;
+package nl.iobyte.commandapi.objects;
 
-import nl.iobyte.commandapi.objects.CommandSyntax;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
+import nl.iobyte.commandapi.interfaces.ICommandExecutor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,13 +54,13 @@ public abstract class SubCommand {
 
     /**
      * Get all Syntax's sender can use
-     * @param sender CommandSender
+     * @param sender ICommandExecutor
      * @return List<CommandSyntax>
      */
-    public List<CommandSyntax> getApplicableSyntaxList(CommandSender sender) {
+    public List<CommandSyntax> getApplicableSyntaxList(ICommandExecutor sender) {
         List<CommandSyntax> list = new ArrayList<>();
         for(CommandSyntax syntax : syntaxList) {
-            if(!syntax.isConsoleAllowed() && !(sender instanceof Player))
+            if(!syntax.isConsoleAllowed() && !sender.isPlayer())
                 continue;
 
             list.add(syntax);
@@ -91,19 +89,11 @@ public abstract class SubCommand {
     }
 
     /**
-     * When player executes command
-     * @param player Player
+     * When executing command
+     * @param executor ICommandExecutor
      * @param args Object[]
      * @param syntaxUsed Integer
      */
-    public abstract void onPlayerCommand(Player player, List<Object> args, int syntaxUsed);
-
-    /**
-     * When console executes command
-     * @param sender CommandSender
-     * @param args Object[]
-     * @param syntaxUsed Integer
-     */
-    public abstract void onConsoleCommand(CommandSender sender, List<Object> args, int syntaxUsed);
+    public abstract void onCommand(ICommandExecutor executor, List<Object> args, int syntaxUsed);
 
 }

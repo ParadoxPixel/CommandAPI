@@ -1,9 +1,8 @@
 package nl.iobyte.commandapi.middlewares;
 
+import nl.iobyte.commandapi.interfaces.ICommandExecutor;
 import nl.iobyte.commandapi.interfaces.ICommandMiddleware;
-import nl.iobyte.commandapi.interfaces.SubCommand;
-import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
+import nl.iobyte.commandapi.objects.SubCommand;
 
 public class PermissionMiddleware implements ICommandMiddleware {
 
@@ -18,16 +17,16 @@ public class PermissionMiddleware implements ICommandMiddleware {
     }
 
     @Override
-    public boolean continueCommand(CommandSender sender, SubCommand command) {
+    public boolean continueCommand(ICommandExecutor sender, SubCommand command) {
         if(command.hasPermission() && !sender.hasPermission(command.getPermission())) {
-            sender.sendMessage(ChatColor.RED + "You don't have permission to use this command");
+            sender.sendMessage("§4" + "You don't have permission to use this command");
             return false;
         }
 
         if(permissions != null && permissions.length != 0) {
             for (String permission : permissions) {
                 if (!sender.hasPermission(permission)) {
-                    sender.sendMessage(ChatColor.RED + "You don't have permission to use this command");
+                    sender.sendMessage("§4" + "You don't have permission to use this command");
                     return false;
                 }
             }

@@ -1,7 +1,7 @@
 package nl.iobyte.commandapi.interfaces;
 
 import nl.iobyte.commandapi.objects.ArgumentCheck;
-import org.bukkit.command.CommandSender;
+import nl.iobyte.commandapi.interfaces.ICommandExecutor;
 import java.util.List;
 
 public interface ICommandArgument<T> {
@@ -14,20 +14,20 @@ public interface ICommandArgument<T> {
 
     /**
      * Check if valid argument
-     * @param sender CommandSender
+     * @param sender ICommandExecutor
      * @param args Arguments passed by Command
      * @param previousArguments Previous arguments
      * @return ArgumentCheck
      */
-    ArgumentCheck checkArgument(CommandSender sender, String[] args, List<Object> previousArguments);
+    ArgumentCheck checkArgument(ICommandExecutor sender, String[] args, List<Object> previousArguments);
 
     /**
      * Get object of argument
-     * @param sender CommandSender
+     * @param sender ICommandExecutor
      * @param args Arguments passed by Command
      * @param previousArguments Previous arguments
      * @return Object of type T
      */
-    T getArgument(CommandSender sender, String[] args, List<Object> previousArguments);
+    T getArgument(ICommandExecutor sender, String[] args, List<Object> previousArguments);
 
 }

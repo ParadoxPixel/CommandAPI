@@ -1,9 +1,9 @@
 package nl.iobyte.commandapi.interfaces;
 
-import org.bukkit.command.CommandSender;
+import nl.iobyte.commandapi.objects.SubCommand;
 
 public interface ICommandMiddleware {
 
-    boolean continueCommand(CommandSender sender, SubCommand command);
+    boolean continueCommand(ICommandExecutor sender, SubCommand command);
 
 }

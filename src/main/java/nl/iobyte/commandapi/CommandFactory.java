@@ -1,28 +1,19 @@
 package nl.iobyte.commandapi;
 
-import javafx.util.Pair;
 import nl.iobyte.commandapi.interfaces.ICommandArgument;
 import nl.iobyte.commandapi.interfaces.ICommandMiddleware;
 import nl.iobyte.commandapi.objects.ArgumentCheck;
 import nl.iobyte.commandapi.objects.CommandMap;
 import nl.iobyte.commandapi.objects.CommandSyntax;
-import nl.iobyte.commandapi.interfaces.SubCommand;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
+import nl.iobyte.commandapi.objects.SubCommand;
+import nl.iobyte.commandapi.interfaces.ICommandExecutor;
 import java.util.*;
 
-public class CommandFactory implements CommandExecutor {
+public class CommandFactory {
 
     private final String name;
     private final List<ICommandMiddleware> middlewares = new ArrayList<>();
     private final CommandMap commandMap = new CommandMap();
-    private Plugin plugin;
 
     public CommandFactory(String name) {
         this.name = name;
@@ -65,11 +56,11 @@ public class CommandFactory implements CommandExecutor {
     }
 
     /**
-     * Get SubCommand's available to CommandSender
-     * @param sender CommandSender
+     * Get SubCommand's available to ICommandExecutor
+     * @param sender ICommandExecutor
      * @return List<SubCommand>
      */
-    public List<SubCommand> getApplicableSubCommands(CommandSender sender) {
+    public List<SubCommand> getApplicableSubCommands(ICommandExecutor sender) {
         List<SubCommand> list = new ArrayList<>();
         for(SubCommand subCommand : commandMap.getSubCommands()) {
             if (subCommand.hasPermission() && !sender.hasPermission(subCommand.getPermission()))
@@ -86,13 +77,11 @@ public class CommandFactory implements CommandExecutor {
 
     /**
      * When a command gets fired
-     * @param sender CommandSender
-     * @param cmd Command
-     * @param s String
+     * @param sender ICommandExecutor
      * @param args []String
      * @return Boolean
      */
-    public boolean onCommand(CommandSender sender, Command cmd, String s, String[] args) {
+    public boolean onCommand(ICommandExecutor sender, String[] args) {
         if(args.length == 0)
             args = new String[]{"help"};
 
@@ -147,33 +136,17 @@ public class CommandFactory implements CommandExecutor {
 
             int i = subCommand.getSyntaxList().indexOf(syntax);
             List<Object> finalParsedArguments = parsedArguments;
-            Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-                if (sender instanceof Player) {
-                    subCommand.onPlayerCommand((Player) sender, finalParsedArguments, i);
-                } else {
-                    subCommand.onConsoleCommand(sender, finalParsedArguments, i);
-                }
-            });
-
+            subCommand.onCommand(sender, finalParsedArguments, i);
             return true;
         }
 
         if(str != null) {
-            sender.sendMessage(ChatColor.RED +str);
+            sender.sendMessage("§4" +str);
             return true;
         }
 
-        sender.sendMessage(ChatColor.RED + "Usage: " + ChatColor.WHITE + syntaxList.get(0).getUsage());
+        sender.sendMessage("§4" + "Usage: " + "§f" + syntaxList.get(0).getUsage());
         return true;
-    }
-
-    /**
-     * Register command
-     * @param plugin JavaPlugin
-     */
-    public void registerCommand(JavaPlugin plugin) {
-        this.plugin = plugin;
-        plugin.getCommand(name).setExecutor(this);
     }
 
 }

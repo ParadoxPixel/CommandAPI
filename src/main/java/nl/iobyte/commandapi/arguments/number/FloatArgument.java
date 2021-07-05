@@ -2,8 +2,7 @@ package nl.iobyte.commandapi.arguments.number;
 
 import nl.iobyte.commandapi.interfaces.ICommandArgument;
 import nl.iobyte.commandapi.objects.ArgumentCheck;
-import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
+import nl.iobyte.commandapi.interfaces.ICommandExecutor;
 import java.util.List;
 
 public class FloatArgument implements ICommandArgument<Float> {
@@ -13,17 +12,17 @@ public class FloatArgument implements ICommandArgument<Float> {
      * @return String
      */
     public String getMessage(String[] args) {
-        return "Invalid float: "+ ChatColor.WHITE+args[0];
+        return "Invalid float: "+ "§f"+args[0];
     }
 
     /**
      * Check if argument is valid Float
-     * @param sender CommandSender
+     * @param sender ICommandExecutor
      * @param args Arguments passed by Command
      * @param previousArguments Previous arguments
      * @return Boolean
      */
-    public ArgumentCheck checkArgument(CommandSender sender, String[] args, List<Object> previousArguments) {
+    public ArgumentCheck checkArgument(ICommandExecutor sender, String[] args, List<Object> previousArguments) {
         try {
             Float.parseFloat(args[0]);
             return new ArgumentCheck(true, 1);
@@ -34,12 +33,12 @@ public class FloatArgument implements ICommandArgument<Float> {
 
     /**
      * Get Float passed by command
-     * @param sender CommandSender
+     * @param sender ICommandExecutor
      * @param args Arguments passed by Command
      * @param previousArguments Previous arguments
      * @return Float
      */
-    public Float getArgument(CommandSender sender, String[] args, List<Object> previousArguments) {
+    public Float getArgument(ICommandExecutor sender, String[] args, List<Object> previousArguments) {
         try {
             return Float.parseFloat(args[0]);
         } catch (Exception e) {

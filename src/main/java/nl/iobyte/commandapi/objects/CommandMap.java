@@ -1,6 +1,5 @@
 package nl.iobyte.commandapi.objects;
 
-import nl.iobyte.commandapi.interfaces.SubCommand;
 import java.util.*;
 
 public class CommandMap {
